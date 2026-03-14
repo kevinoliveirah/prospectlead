@@ -23,14 +23,6 @@ const INITIAL_QUERY = {
   radius_km: ""
 };
 
-type SegmentHistoryItem = {
-  segment: string;
-  total: number;
-  last_searched: string;
-  last_city?: string | null;
-  last_radius_km?: number | null;
-};
-
 const isUuid = (value: string) =>
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
     value
@@ -42,8 +34,6 @@ export default function MapaPage() {
   const initializedQueryRef = useRef(false);
   const [query, setQuery] = useState(INITIAL_QUERY);
   const [results, setResults] = useState<Company[]>([]);
-  const [history, setHistory] = useState<any[]>([]);
-  const [segmentHistory, setSegmentHistory] = useState<SegmentHistoryItem[]>([]);
   const [source, setSource] = useState<string>("database");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,18 +49,9 @@ export default function MapaPage() {
 
   useEffect(() => {
     if (!token) return;
-    const fetchInitial = async () => {
-      try {
-        setLoading(true);
-        const [searchData, historyData, segmentData] = await Promise.all([
-          apiFetch<SearchResponse>("/companies/search?limit=25", {}, token),
-          apiFetch<any[]>("/companies/history", {}, token),
-          apiFetch<SegmentHistoryItem[]>("/companies/history/segments", {}, token)
-        ]);
+        const searchData = await apiFetch<SearchResponse>("/companies/search?limit=25", {}, token);
         setResults(searchData.results || []);
         setSource(searchData.source || "database");
-        setHistory(historyData || []);
-        setSegmentHistory(segmentData || []);
       } catch (err: any) {
         console.error("Failed to fetch initial data:", err);
       } finally {
@@ -168,11 +149,6 @@ export default function MapaPage() {
       );
       setResults(data.results || []);
       setSource(data.source || "database");
-      
-      const historyData = await apiFetch<any[]>("/companies/history", {}, token);
-      setHistory(historyData || []);
-      const segmentData = await apiFetch<SegmentHistoryItem[]>("/companies/history/segments", {}, token);
-      setSegmentHistory(segmentData || []);
     } catch (err: any) {
       setError(err.message);
     } finally {
