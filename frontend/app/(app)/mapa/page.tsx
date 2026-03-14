@@ -8,6 +8,8 @@ import { useAuth } from "../../../components/AuthProvider";
 import { MapPreview } from "../../../components/MapPreview";
 import { CompanyDetailsModal } from "../../../components/CompanyDetailsModal";
 import { CityAutocomplete } from "../../../components/CityAutocomplete";
+import { SearchHistoryList } from "../../../components/SearchHistoryList";
+import { SearchHistory } from "../../../lib/types";
 
 type SearchResponse = {
   source: string;
@@ -165,6 +167,18 @@ export default function MapaPage() {
     await performSearch(query);
   };
 
+  const handleSelectHistory = (item: SearchHistory) => {
+    const nextQuery = {
+      ...INITIAL_QUERY,
+      q: item.query || "",
+      city: item.city || "",
+      radius_km: item.radius_km?.toString() || "",
+      category: item.category || ""
+    };
+    setQuery(nextQuery);
+    performSearch(nextQuery);
+  };
+
   const handleSaveLead = async (company: Company) => {
     if (!token) return;
     try {
@@ -297,6 +311,8 @@ export default function MapaPage() {
           </div>
         </form>
       </div>
+
+      <SearchHistoryList onSelect={handleSelectHistory} />
 
 
       {error ? (

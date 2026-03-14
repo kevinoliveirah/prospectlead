@@ -58,3 +58,11 @@ export type DashboardSummary = {
   by_status: Array<{ status: string; count: number }>;
   recent: Array<{ id: string; company_name: string; status: string; updated_at: string }>;
 };
+export type SearchHistory = {
+  id: string;
+  query: string;
+  city?: string | null;
+  radius_km?: number | null;
+  category?: string | null;
+  created_at: string;
+};
