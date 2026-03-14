@@ -203,7 +203,7 @@ if (usePostgres) {
           resolve({ rows: rows || [], rowCount: rows?.length || 0 });
         });
       } else {
-        db.run(sqliteQuery, params, function (err: Error | null) {
+        db.run(sqliteQuery, params, function (this: { changes?: number }, err: Error | null) {
           if (err) return reject(err);
 
           // If it was an insert with RETURNING, simulate the expected user shape.
