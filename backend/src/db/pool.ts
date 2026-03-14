@@ -21,7 +21,82 @@ if (usePostgres) {
       : undefined
   });
 
+  const pgSchemaSql = `
+    CREATE TABLE IF NOT EXISTS plans (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      price_cents INTEGER NOT NULL,
+      max_searches_per_day INTEGER,
+      max_leads INTEGER,
+      features TEXT,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+    CREATE TABLE IF NOT EXISTS users (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      password_hash TEXT NOT NULL,
+      company TEXT,
+      plan_id TEXT REFERENCES plans(id),
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+    CREATE TABLE IF NOT EXISTS companies (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      address TEXT,
+      phone TEXT,
+      website TEXT,
+      email TEXT,
+      category TEXT,
+      city TEXT,
+      latitude REAL,
+      longitude REAL,
+      rating REAL,
+      size TEXT,
+      revenue_estimate TEXT,
+      business_type TEXT,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+    CREATE TABLE IF NOT EXISTS search_history (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      query TEXT NOT NULL,
+      city TEXT,
+      radius_km REAL,
+      category TEXT,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+    CREATE TABLE IF NOT EXISTS leads (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      company_id TEXT REFERENCES companies(id) ON DELETE SET NULL,
+      company_name TEXT NOT NULL,
+      phone TEXT,
+      email TEXT,
+      website TEXT,
+      status TEXT NOT NULL,
+      notes TEXT,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    );
+    CREATE TABLE IF NOT EXISTS lead_notes (
+      id TEXT PRIMARY KEY,
+      lead_id TEXT NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
+      note TEXT NOT NULL,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+  `;
+
+  let pgReady: Promise<void> | null = null;
+  const ensurePgReady = async () => {
+    if (!pgReady) {
+      pgReady = pgPool.query(pgSchemaSql).then(() => undefined);
+    }
+    return pgReady;
+  };
+
   query = async (text: string, params: any[] = []) => {
+    await ensurePgReady();
     const result = await pgPool.query(text, params);
     return { rows: result.rows, rowCount: result.rowCount ?? 0 };
   };
