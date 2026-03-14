@@ -39,6 +39,13 @@ function mapLoginError(message: string) {
     };
   }
 
+  if (normalized.includes("request_timeout")) {
+    return {
+      title: "Servidor lento",
+      detail: "A resposta demorou demais. Verifique o backend e tente novamente."
+    };
+  }
+
   if (normalized.includes("request_failed_500") || normalized.includes("internal_server_error")) {
     return {
       title: "Servidor indisponivel",

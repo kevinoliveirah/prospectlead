@@ -1,5 +1,6 @@
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000";
+const API_TIMEOUT_MS = 12000;
 
 type ApiError = { error?: string };
 
@@ -19,24 +20,37 @@ export async function apiFetch<T>(
   const url = `${API_BASE_URL}${path}`;
   console.log(`[DEBUG] apiFetch calling URL: ${url}`);
 
-  const response = await fetch(url, {
-    ...options,
-    headers,
-    cache: "no-store"
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
 
-  if (!response.ok) {
-    let payload: ApiError | null = null;
-    try {
-      payload = (await response.json()) as ApiError;
-    } catch {
-      payload = null;
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers,
+      cache: "no-store",
+      signal: controller.signal
+    });
+
+    if (!response.ok) {
+      let payload: ApiError | null = null;
+      try {
+        payload = (await response.json()) as ApiError;
+      } catch {
+        payload = null;
+      }
+      const message = payload?.error ?? `request_failed_${response.status}`;
+      throw new Error(message);
     }
-    const message = payload?.error ?? `request_failed_${response.status}`;
-    throw new Error(message);
-  }
 
-  return (await response.json()) as T;
+    return (await response.json()) as T;
+  } catch (err) {
+    if (err instanceof Error && err.name === "AbortError") {
+      throw new Error("request_timeout");
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 export { API_BASE_URL };

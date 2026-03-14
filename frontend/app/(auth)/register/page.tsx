@@ -23,6 +23,13 @@ function mapAuthError(message: string) {
     };
   }
 
+  if (normalized.includes("request_timeout")) {
+    return {
+      title: "Servidor lento",
+      detail: "A resposta demorou demais. Verifique o backend e tente novamente."
+    };
+  }
+
   if (normalized.includes("failed to fetch") || normalized.includes("network")) {
     return {
       title: "Sem conexao",

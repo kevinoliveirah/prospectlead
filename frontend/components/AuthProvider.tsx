@@ -18,6 +18,31 @@ const STORAGE_KEY = "mapa_b2b_auth";
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+function safeGetItem(key: string): string | null {
+  try {
+    return window.localStorage.getItem(key);
+  } catch (err) {
+    console.warn("[AUTH] Failed to read localStorage:", err);
+    return null;
+  }
+}
+
+function safeSetItem(key: string, value: string) {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch (err) {
+    console.warn("[AUTH] Failed to write localStorage:", err);
+  }
+}
+
+function safeRemoveItem(key: string) {
+  try {
+    window.localStorage.removeItem(key);
+  } catch (err) {
+    console.warn("[AUTH] Failed to clear localStorage:", err);
+  }
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AuthState>({
     user: null,
@@ -29,7 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (typeof window === "undefined") {
       return;
     }
-    const raw = window.localStorage.getItem(STORAGE_KEY);
+    const raw = safeGetItem(STORAGE_KEY);
     if (!raw) {
       setState((prev) => ({ ...prev, loading: false }));
       return;
@@ -38,7 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const parsed = JSON.parse(raw) as { user: User; token: string };
       setState({ user: parsed.user, token: parsed.token, loading: false });
     } catch {
-      window.localStorage.removeItem(STORAGE_KEY);
+      safeRemoveItem(STORAGE_KEY);
       setState({ user: null, token: null, loading: false });
     }
   }, []);
@@ -46,14 +71,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const setAuth = (auth: { user: User; token: string }) => {
     setState({ user: auth.user, token: auth.token, loading: false });
     if (typeof window !== "undefined") {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(auth));
+      safeSetItem(STORAGE_KEY, JSON.stringify(auth));
     }
   };
 
   const logout = () => {
     setState({ user: null, token: null, loading: false });
     if (typeof window !== "undefined") {
-      window.localStorage.removeItem(STORAGE_KEY);
+      safeRemoveItem(STORAGE_KEY);
     }
   };
 
