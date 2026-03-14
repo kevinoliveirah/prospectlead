@@ -4,6 +4,20 @@ Parabéns! Você já colocou o frontend no Netlify (`prospectlead.netlify.app`).
 
 ---
 
+## ⚡ Passo 1: Conectar o GitHub (Atualização em Tempo Real)
+
+Você já disponibilizou o ID do projeto (`8211e4b6-f46c-4364-8c01-72e513861bb3`). Para garantir que a plataforma atualize **sempre que eu mexer no código**:
+
+1.  No Netlify, vá em **Site Configuration** > **Build & Deploy** > **Continuous Deployment**.
+2.  Conecte ao seu repositório: `https://github.com/kevinoliveirah/prospect-lead`.
+3.  Configure o diretório base como: `frontend`.
+4.  Comando de build: `npm run build`.
+5.  Diretório de publicação: `.next`.
+
+**A partir de agora, cada push que eu fizer para o GitHub atualizará seu site automaticamente!**
+
+---
+
 ## 🏗️ Passo 1: Hospedar o Backend (API)
 
 O Netlify é excelente para o frontend, mas não roda servidores Node.js permanentes. Você precisa subir a pasta `/backend` em um serviço de hospedagem de API.
