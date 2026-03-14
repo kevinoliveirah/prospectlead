@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Space_Grotesk } from "next/font/google";
 import { AuthProvider } from "../components/AuthProvider";
+import { GoogleMapsProvider } from "../components/GoogleMapsProvider";
 
 const space = Space_Grotesk({
   subsets: ["latin"],
@@ -20,7 +21,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={space.className}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <GoogleMapsProvider>
+            {children}
+          </GoogleMapsProvider>
+        </AuthProvider>
       </body>
     </html>
   );

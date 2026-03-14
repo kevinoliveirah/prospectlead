@@ -1,9 +1,6 @@
 "use client";
 
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from "use-places-autocomplete";
+import usePlacesAutocomplete from "use-places-autocomplete";
 import { useEffect, useRef, useState } from "react";
 import { useGoogleMaps } from "./GoogleMapsProvider";
 
@@ -40,7 +37,6 @@ export function CityAutocomplete({
     cache: 24 * 60 * 60,
   });
 
-  // Sync internal value with external prop if it changes externally
   useEffect(() => {
     if (value !== inputValue) {
       setValue(value, false);

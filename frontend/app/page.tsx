@@ -7,6 +7,7 @@ import { Unbounded, Sora } from "next/font/google";
 import { useAuth } from "../components/AuthProvider";
 import { CheckCircle, Search, ArrowRight, Zap, BarChart3, Cloud, Filter, Download, Users, SlidersHorizontal } from "lucide-react";
 import Image from "next/image";
+import { CityAutocomplete } from "../components/CityAutocomplete";
 
 const heading = Unbounded({
   subsets: ["latin"],
@@ -239,15 +240,15 @@ export default function Home() {
                       onChange={(event) => setSegment(event.target.value)}
                     />
                   </label>
-                  <label className="text-xs uppercase tracking-[0.3em] text-[var(--ink-muted)]">
-                    Cidade
-                    <input
-                      className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40"
+                  <div className="flex flex-col gap-2">
+                    <span className="text-xs uppercase tracking-[0.3em] text-[var(--ink-muted)]">Cidade</span>
+                    <CityAutocomplete
+                      className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40"
                       placeholder="Ex: Curitiba, PR"
                       value={city}
-                      onChange={(event) => setCity(event.target.value)}
+                      onChange={setCity}
                     />
-                  </label>
+                  </div>
                   <button
                     type="submit"
                     className="flex items-center justify-center gap-2 rounded-2xl bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[var(--accent)]/30 transition hover:brightness-110"
