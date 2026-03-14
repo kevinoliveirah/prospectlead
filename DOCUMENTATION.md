@@ -1,104 +1,113 @@
-# Documentação Completa: Prospect Lead Pro 🚀
+# 🚀 Documentação Master: Prospect Lead Pro
 
-Bem-vindo à documentação oficial do **Prospect Lead Pro**. Este documento foi criado para fornecer uma visão detalhada tanto para **usuários finais** que desejam extrair o máximo da plataforma, quanto para **desenvolvedores** que precisam manter ou expandir o sistema.
-
----
-
-## 📖 Parte 1: Guia do Usuário
-
-Esta seção é dedicada a quem utiliza a plataforma para prospecção e vendas no dia a dia.
-
-### 1.1 Primeiros Passos
-- **Cadastro**: Crie sua conta informando nome, email e senha.
-- **Login**: Acesse com suas credenciais para entrar no seu painel exclusivo.
-- **Dashboard**: Assim que entrar, você verá o resumo da sua operação: total de leads capturados, prospecções feitas e o estado atual do seu funil.
-
-### 1.2 O Mapa de Prospecção (O Coração do Sistema)
-O mapa permite que você "limpe" uma região inteira em busca de clientes.
-1.  **Busca**: Digite o **Segmento** (ex: "Oficinas Mecânicas") e a **Cidade** (ex: "Curitiba").
-2.  **Resultados**: O sistema listará empresas encontradas via Google Maps.
-3.  **Inteligência de IA**:
-    - **Classificação**: O sistema indica se a empresa é B2B ou B2C automaticamente.
-    - **Faturamento**: Veja uma estimativa de quanto a empresa fatura anualmente.
-4.  **Capturar Lead**: Clique no botão de captura (ícone de salvar) para enviar aquela empresa diretamente para o seu CRM.
-
-### 1.3 Gerenciando o CRM Kanban
-Seus leads capturados aparecem na página **CRM**.
-- **Colunas**: Os leads estão organizados por etapas (Novo, Contato, Reunião, Proposta, Fechado).
-- **Mover Leads**: Basta arrastar o card de uma coluna para outra conforme a negociação avança.
-- **Exclusão**: Se um lead não for mais interessante, você pode removê-lo clicando no ícone de lixeira.
-
-### 1.4 Ação de Vendas (WhatsApp e Notas)
-Clique em um lead no CRM para abrir os detalhes:
-- **WhatsApp**: Use os **Templates de Mensagem** prontos para não perder tempo digitando. Clique no ícone do WhatsApp e a conversa abrirá com a mensagem já escrita.
-- **Histórico de Notas**: Digite resumos das suas reuniões ou chamadas para nunca esquecer o que foi combinado.
-- **Exportação**: No Dashboard, você pode clicar em "Exportar CSV" para baixar sua lista completa e usar em ferramentas de email marketing ou Excel.
+Seja bem-vindo à documentação oficial do **Prospect Lead Pro**. Este guia foi elaborado para ser a fonte definitiva de informação, cobrindo desde a operação comercial até os detalhes mais profundos da engenharia do sistema.
 
 ---
 
-## 🛠️ Parte 2: Guia do Desenvolvedor
+## 🧭 Navegação Rápida
+- [🎯 Visão Geral do Produto](#-visão-geral-do-produto)
+- [👤 Guia do Usuário (Operação VGV)](#-guia-do-usuário-operação-vgv)
+- [🛠️ Guia do Desenvolvedor (Engenharia)](#️-guia-do-desenvolvedor-engenharia)
+- [📡 Referência da API](#-referência-da-api)
+- [🛡️ Segurança e Melhores Práticas](#️-segurança-e-melhores-práticas)
 
-Esta seção é dedicada à equipe técnica e configuração do ambiente.
+---
 
-### 2.1 Tecnologias Utilizadas
-- **Frontend**: Next.js 14, Tailwind CSS, Lucide React, Framer Motion (animações).
-- **Backend**: Node.js, Express, TypeScript, JWT para autenticação.
-- **Banco de Dados**: PostgreSQL com `pg-pool`.
+## 🎯 Visão Geral do Produto
 
-### 2.2 Estrutura do Monorepo
-A organização de pastas foi pensada para separação de responsabilidades:
-- `/frontend`: Aplicação Next.js completa.
-  - `/app`: Rotas e páginas (App Router).
-  - `/components`: UI atoms, molecules e organismos.
-  - `/context`: Context API para Auth.
-- `/backend`: Servidor API.
-  - `/src/routes`: Definição dos endpoints.
-  - `/src/controllers`: Lógica de negócio e interação com DB.
-  - `/src/middleware`: Proteção de rotas (Auth).
-- `/database`: Contém o `schema.sql` para inicialização do banco.
+O **Prospect Lead Pro** não é apenas um localizador de empresas; é um ecossistema de inteligência comercial. Ele resolve o problema da prospecção fria e demorada através de três pilares:
 
-### 2.3 Configuração de Ambiente (.env)
-Você deve configurar dois arquivos `.env`:
+1.  **Descoberta Inteligente**: Usa dados brutos do Google Maps e os processa com IA.
+2.  **Qualificação Automática**: Identifica faturamento e perfil B2B/B2C sem intervenção humana.
+3.  **Gestão de Pipeline**: Um CRM Kanban fluido que mantém o foco no fechamento.
 
-**Backend (`/backend/.env`):**
-```env
-PORT=4000
-DATABASE_URL=postgres://usuario:senha@host:5432/nome_banco
-JWT_SECRET=sua_chave_secreta_aqui
-GOOGLE_MAPS_API_KEY=sua_chave_do_google
+---
+
+## 👤 Guia do Usuário (Operação VGV)
+
+Este guia é para vendas, gestores e SDRs que buscam bater metas.
+
+### 2.1 Fluxo de Trabalho Ideal
+1.  **A Exploração**: Vá até a página **Mapa**. Use termos específicos (ex: "Empresas de Logística em Joinville"). O mapa mostrará pontos estratégicos.
+2.  **O Filtro de Ouro**: Observe os selos de classificação. Foque em empresas com perfil "B2B" e faturamento estimado compatível com seu ticket médio.
+3.  **A Captura**: Ao clicar em salvar, o lead vai para a coluna **"Novo"** do seu CRM.
+
+### 2.2 Dominando o CRM Kanban
+- **Visualização**: Cards coloridos indicam o status.
+- **Ação Rápida**: Clique no card para ver o telefone e o site original.
+- **Notas de Ouro**: Durante a ligação, anote objeções e pontos fortes na seção de Notas. Isso fica salvo para sempre para quem for assumir a conta.
+
+### 2.3 Atalho para a Venda (WhatsApp)
+> [!TIP]
+> Use os templates disponíveis. Eles foram testados para ter alta taxa de abertura. Basta escolher o template, clicar no ícone do WhatsApp e a conversa inicia já com o nome da empresa preenchido.
+
+---
+
+## 🛠️ Guia do Desenvolvedor (Engenharia)
+
+Seção técnica para manutenção e expansão.
+
+### 3.1 Stack de Tecnologia Elite
+| Componente | Tecnologia | Papel |
+| :--- | :--- | :--- |
+| **Frontend** | Next.js 14 | Renderização, SEO e UX Reativa |
+| **Styling** | Tailwind CSS | Design System Night Mode |
+| **Backend** | Node.js + TS | Lógica de Negócio e Middlewares |
+| **Database** | PostgreSQL | Armazenamento Relacional Robusto |
+| **Auth** | JWT | Segurança de Sessão Stateless |
+
+### 3.2 Estrutura do Monorepo
+```
+/
+├── backend/            # API Server (TypeScript)
+│   ├── src/
+│   │   ├── controllers/# Lógica de rotas
+│   │   ├── middleware/ # Auth e Validação
+│   │   └── routes/     # Definições de Endpoints
+│   └── tests/          # Suíte de testes unitários
+├── frontend/           # Next.js Application
+│   ├── app/            # App Router (Páginas e Layouts)
+│   ├── components/     # UI Design System
+│   └── context/        # Global States (Auth/Leads)
+└── database/           # PostgreSQL Schema & Seeders
 ```
 
-**Frontend (`/frontend/.env`):**
-```env
-NEXT_PUBLIC_API_URL=http://localhost:4000
-```
-
-### 2.4 Endpoints Principais (API)
-- **POST `/auth/register`**: Criação de usuários.
-- **POST `/auth/login`**: Gera o token JWT.
-- **GET `/companies/search`**: Integra com o motor de busca e IA (requer query: `query` e `location`).
-- **POST `/leads`**: Salva um lead no banco.
-- **PATCH `/leads/:id`**: Atualiza etapa ou dados do lead.
-- **GET `/dashboard/summary`**: Retorna agregados para os gráficos.
-
-### 2.5 Inicialização do Banco de Dados
-Acesse o diretório `/database` e execute:
-```sql
-psql -U seu_usuario -d seu_banco -f schema.sql
-```
+### 3.3 Guia de Configuração de "Ponta"
+1.  **Instalação**: Rode `npm install` na raíz. (O sistema está preparado para gerenciar dependências de forma isolada).
+2.  **Database**:
+    - Crie o banco `prospect_lead_db`.
+    - Importe o arquivo `/database/schema.sql`.
+3.  **Secrets**: Crie o arquivo `.env` no backend seguindo o `.env.example`.
+    - **CRITICAL**: Nunca compartilhe sua `GOOGLE_MAPS_API_KEY`.
 
 ---
 
-## 🏗️ Arquitetura de Dados
-O sistema utiliza um fluxo unidirecional onde o Backend atua como a única fonte de verdade. Todas as buscas externas (Maps) são enriquecidas em tempo real antes de serem enviadas ao Frontend, garantindo que o usuário receba dados já processados e classificados.
+## 📡 Referência da API
+
+Consuma os dados do backend de forma programática:
+
+| Método | Rota | Descrição | Protegido? |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/auth/login` | Autentica e retorna Bearer Token | Não |
+| `GET` | `/companies/search` | Busca empresas via Google Maps + IA | Sim |
+| `GET` | `/leads` | Lista leads salvos no CRM | Sim |
+| `PATCH` | `/leads/:id` | Altera status ou dados do lead | Sim |
+| `POST` | `/ai/prospect` | Processamento manual via IA de uma lista | Sim |
 
 ---
 
-## ✅ Checklist de Manutenção
-1.  **Segurança**: Verifique se o `JWT_SECRET` é robusto em produção.
-2.  **CORS**: Configure as origens permitidas em `backend/src/app.ts`.
-3.  **Logs**: O sistema atualmente loga erros no console; recomenda-se integrar o Sentry para monitoramento em produção.
+## 🛡️ Segurança e Melhores Práticas
+
+- **CORS**: Configurado para aceitar requisições apenas da URL do frontend definida no `.env`.
+- **JWT**: Tokens com expiração definida (padrão 24h).
+- **Sanitização**: Todas as entradas do banco passam por escapes do `pg-pool` para evitar SQL Injection.
 
 ---
 
-### Prospect Lead Pro - Potencializando Vendas com Tecnologia.
+> [!IMPORTANT]
+> **Próximos Passos de Evolução**:
+> - Integração com Webhooks de CRM Externos (Pipefy/Hubspot).
+> - Dashboards de métricas por Vendedor.
+
+---
+### Prospect Lead Pro - A Inteligência por trás da prospecção de elite.
