@@ -49,6 +49,9 @@ export default function MapaPage() {
 
   useEffect(() => {
     if (!token) return;
+    const fetchInitial = async () => {
+      try {
+        setLoading(true);
         const searchData = await apiFetch<SearchResponse>("/companies/search?limit=25", {}, token);
         setResults(searchData.results || []);
         setSource(searchData.source || "database");
