@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: prospectlead-backend
+    env: node
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 4000
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: prospectlead-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: https://prospectlead.netlify.app
+databases:
+  - name: prospectlead-db
+    databaseName: prospectlead
+    user: prospectlead
+    plan: free
