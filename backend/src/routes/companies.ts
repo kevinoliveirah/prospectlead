@@ -73,8 +73,9 @@ router.get("/search", requireAuth, async (req, res, next) => {
       const expandedQueries = expandQuery(params.q, params.city);
       const queryCount = Math.min(expandedQueries.length, 2);
       const perQueryLimit = Math.ceil(googleLimit / Math.max(queryCount, 1));
+      const apiKey = env.GOOGLE_MAPS_API_KEY;
       const searchPromises = expandedQueries.slice(0, queryCount).map(q =>
-        searchGoogle(q, env.GOOGLE_MAPS_API_KEY, params.radius_km, perQueryLimit)
+        searchGoogle(q, apiKey, params.radius_km, perQueryLimit)
       );
       const allGoogleResults = (await Promise.all(searchPromises)).flat();
 
@@ -424,7 +425,7 @@ async function fetchPlaceDetails(placeId: string, apiKey: string) {
     phone: phone ?? webData.phone,
     website,
     email: webData.email,
-    social: Object.keys(webData.social).length > 0 ? webData.social : null,
+    social: Object.keys(webData.social).length > 0 ? webData.social : undefined,
     business_type: googleTypeClassification ?? classification.type,
     revenue_estimate: classification.revenue
   };
